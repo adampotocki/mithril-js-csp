@@ -1,0 +1,55 @@
+{
+  "name": "mithril-js-csp-architecture",
+  "version": "1.0.0",
+  "description": "Mithril with js-csp Architecture",
+  "main": "src/index.js",
+  "scripts": {
+    "browse": "browser-sync start --server 'build' --files 'build' --no-notify",
+    "build": "NODE_ENV=production rollup -c",
+    "build-dev": "NODE_ENV=dev rollup -c",
+    "start": "npm run build-dev && npm-run-all --parallel watch browse",
+    "watch": "onchange src -- npm run build-dev"
+  },
+  "keywords": [
+    "mithril",
+    "js-csp",
+    "csp channels",
+    "architecture"
+  ],
+  "author": "Adam Potocki",
+  "license": "MIT",
+  "dependencies": {
+    "js-csp": "^0.8.0",
+    "mithril": "^1.0.0-rc.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.2",
+    "babel-preset-latest": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "browser-sync": "^2.17.5",
+    "npm-run-all": "^3.1.1",
+    "onchange": "^3.0.2",
+    "rollup": "^0.36.3",
+    "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-commonjs": "^5.0.5",
+    "rollup-plugin-filesize": "^1.0.1",
+    "rollup-plugin-includepaths": "^0.1.6",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-uglify": "^1.0.1",
+    "uglify-js": "^2.7.4"
+  },
+  "babel": {
+    "presets": [
+      [
+        "latest",
+        {
+          "es2015": {
+            "modules": false
+          }
+        }
+      ],
+      "stage-0"
+    ]
+  }
+}
