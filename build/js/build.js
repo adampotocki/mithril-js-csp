@@ -12319,40 +12319,46 @@ var CreateWord = {
     vnode.state.inputText = index.prop('');
   },
   view: function view(vnode) {
+    var _this = this;
+
     var loading = vnode.attrs.loading;
 
-    function create() {
-      var text = vnode.state.inputText().trim();
-      var ch = vnode.attrs.complexActionsChannels.dbInsert;
-      putThenCallback(ch, text);
-      vnode.state.inputText('');
-    }
-
-    return loading ? index('p', 'Adding word...') : index('p', [index('input[type="text"]', {
+    return loading ? index('p', 'Adding word...') : index('p.uk-form', [index('input[type="text"]', {
       value: vnode.state.inputText(),
       onchange: index.withAttr('value', vnode.state.inputText)
-    }), index('a[href="#"]', {
-      onclick: create
+    }), index('button.uk-button.uk-margin-left', {
+      onclick: function onclick(e) {
+        return _this.create(vnode);
+      }
     }, 'Add...')]);
+  },
+  create: function create(vnode) {
+    var text = vnode.state.inputText().trim();
+    var ch = vnode.attrs.complexActionsChannels.dbInsert;
+    putThenCallback(ch, text);
+    vnode.state.inputText('');
   }
 };
 
-var Main = {
+var App = {
   view: function view(vnode) {
+    var _this = this;
+
     var state = vnode.attrs.appState;
     var currentWord = state.words[state.current];
 
-    function page(direction) {
-      var ch = vnode.attrs.updateChannels.page;
-      return function () {
-        return putThenCallback(ch, direction);
-      };
-    }
-
-    return index('div', [index('p', 'Current word: ' + currentWord), index('p', [index('a[href="#"]', { onclick: page('prev') }, 'Previous'), index('a[href="#"]', { onclick: page('next') }, 'Next')]), index(CreateWord, {
+    return index('div', [index('p', 'Current word: ' + currentWord), index('p', [index('button.uk-button.uk-margin-right', { onclick: function onclick(e) {
+        return _this.page(vnode, 'prev');
+      } }, 'Previous'), index('button.uk-button.uk-margin-right', { onclick: function onclick(e) {
+        return _this.page(vnode, 'next');
+      } }, 'Next')]), index(CreateWord, {
       complexActionsChannels: vnode.attrs.complexActionsChannels,
       loading: vnode.attrs.appState.loading
     }), index('pre', JSON.stringify(state, null, ' '))]);
+  },
+  page: function page(vnode, direction) {
+    var ch = vnode.attrs.updateChannels.page;
+    return putThenCallback(ch, direction);
   }
 };
 
@@ -12483,7 +12489,7 @@ var initRender = function initRender(app, element) {
                       finishRender = chan$1();
 
 
-                      index.render(element, index(Main, {
+                      index.render(element, index(App, {
                         appState: app.state,
                         updateChannels: app.updates.channels,
                         complexActionsChannels: app.complexActions.channels

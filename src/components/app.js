@@ -3,21 +3,16 @@ import { putAsync } from 'js-csp';
 
 import CreateWord from './createWord';
 
-const Main = {
+const App = {
   view(vnode) {
     const state = vnode.attrs.appState;
     const currentWord = state.words[state.current];
 
-    function page(direction) {
-      const ch = vnode.attrs.updateChannels.page;
-      return () => putAsync(ch, direction);
-    }
-
     return m('div', [
       m('p', `Current word: ${currentWord}`),
       m('p', [
-        m('a[href="#"]', { onclick: page('prev') }, 'Previous'),
-        m('a[href="#"]', { onclick: page('next') }, 'Next')
+        m('button.uk-button.uk-margin-right', { onclick: e => this.page(vnode, 'prev') }, 'Previous'),
+        m('button.uk-button.uk-margin-right', { onclick: e => this.page(vnode, 'next') }, 'Next')
       ]),
       m(CreateWord, {
         complexActionsChannels: vnode.attrs.complexActionsChannels,
@@ -25,7 +20,11 @@ const Main = {
       }),
       m('pre', JSON.stringify(state, null, ' '))
     ]);
+  },
+  page(vnode, direction) {
+    const ch = vnode.attrs.updateChannels.page;
+    return putAsync(ch, direction);
   }
 };
 
-export default Main;
+export default App;

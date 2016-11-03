@@ -1,0 +1,15 @@
+.application-root {
+  max-width: 900px;
+  width: 60%;
+  margin: 20px 25px;
+}
+
+a {
+  margin: 0 10px;
+}
+
+.cart {
+  position: fixed;
+  right: 50px;
+  top: 30px;
+}

@@ -7,7 +7,7 @@ import uglify from 'rollup-plugin-uglify';
 import { minify } from 'uglify-js';
 
 export default {
-  entry: 'src/app.js',
+  entry: 'src/main.js',
   dest: 'build/js/build.js',
   format: 'cjs',
   plugins: [
